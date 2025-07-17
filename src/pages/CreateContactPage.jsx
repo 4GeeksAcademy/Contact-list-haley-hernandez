@@ -1,8 +1,11 @@
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export const CreateContactComponent = () => {
     // Here i am using useState to store the input values
+    const navigate = useNavigate()
     const [contactInformation, setContactInformation] = useState({
         "name": "",
         "phone": "",
@@ -10,29 +13,29 @@ export const CreateContactComponent = () => {
         "address": "",
     });
 
-   async function createContact(name, phone, email, address) {
-  try {
-    const response = await fetch("https://playground.4geeks.com/contact/agendas/haleyhernandez/contacts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: contactInformation.name,
-        phone: contactInformation.phone,
-        email: contactInformation.email,
-        address: contactInformation.address,
-      }),
-    });
+    async function createContact() {
+        try {
+            const response = await fetch("https://playground.4geeks.com/contact/agendas/haleyhernandez/contacts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: contactInformation.name,
+                    phone: contactInformation.phone,
+                    email: contactInformation.email,
+                    address: contactInformation.address,
+                }),
+            });
 
-    const data = await response.json(); // optional: get the JSON response
-    console.log("Contact created:", data);
-    return data;
-
-  } catch (error) {
-    console.log("There was an error:", error);
-  }
-}
+            const data = await response.json(); // optional: get the JSON response
+            console.log("Contact created:", data);
+            return data;
+            // navigate("/");
+        } catch (error) {
+            console.log("There was an error:", error);
+        }
+    }
 
     // Do i need to implement some bootstrap into the return so the user can input their information to create a contact?
     return (
@@ -84,7 +87,9 @@ export const CreateContactComponent = () => {
             </div>
 
             <div>
-                <button onClick={() => createContact()} >save</button>
+                <Link to="/">
+                    <button onClick={() => createContact()} >save</button>
+                </Link>
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import React, { useEffect, useState } from "react";
 import storeReducer from "../store";
+import { Link } from "react-router-dom";
 
 export const EditContactComponent = () => {
 const { store, dispatch } = useGlobalReducer();
@@ -26,7 +27,7 @@ const { id } = useParams()
             })
         }
     }, []); // Empty dependency array = run once
-    async function editcontact(name, phone, email, address) {
+    async function editcontact() {
         try {
             const response = await fetch(`https://playground.4geeks.com/contact/agendas/haleyhernandez/contacts/${id}`, {
                 method: "PUT",
@@ -102,7 +103,9 @@ const { id } = useParams()
                 </div>
 
                 <div>
-                    <button onClick={() => editcontact()}  >save </button>
+                    <Link to = "/">
+                    <button  onClick={() => editcontact()}  >save </button>
+                    </Link>
                 </div>
             </div>
         </div>
